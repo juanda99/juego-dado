@@ -1,6 +1,8 @@
 import '../styles/style.css';
 
 // seleccionar los elementos del DOM
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
 const score0El = document.querySelector('#score--0');
 const score1El = document.querySelector('#score--1');
 const current0El = document.querySelector('#current--0');
@@ -56,7 +58,7 @@ btnRoll.addEventListener('click', () => {
     if (activePlayer === 0) current0El.textContent = currentScore;
     else current1El.textContent = currentScore;
   } else {
-    // cambiamos de jugador
+    switchPlayer();
   }
 });
 
@@ -70,12 +72,32 @@ btnHold.addEventListener('click', () => {
   // opción larga:
   if (activePlayer === 0) score0El.textContent = score[activePlayer];
   else score1El.textContent = score[activePlayer];
-  // cambiar el jugador activo
-
-  // resetear el score actual
+  // cambiar el jugador activo y resetea el current score
+  switchPlayer();
 });
 
 // evento nuevo juego
 btnNew.addEventListener('click', () => {
   initGame();
 });
+
+function switchPlayer() {
+  // resetear el score actual del jugador activo
+  currentScore = 0;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+  document.querySelector(`#current--${activePlayer}`).textContent = '0';
+  activePlayer = activePlayer === 0 ? 1 : 0;
+
+  // if (activePlayer === 0) {
+  //   current0El.textContent = '0';
+  //   activePlayer = 1;
+  //   // player0El.classList.remove('player--active');
+  //   // player1El.classList.add('player--active');
+  // } else {
+  //   current1El.textContent = '0';
+  //   activePlayer = 0;
+  //   // player1El.classList.remove('player--active');
+  //   // player0El.classList.add('player--active');
+  // }
+}
