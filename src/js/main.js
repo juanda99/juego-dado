@@ -33,6 +33,11 @@ function initGame() {
   score1El.textContent = '0';
   current0El.textContent = '0';
   current1El.textContent = '0';
+
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
 }
 
 initGame();
@@ -42,9 +47,8 @@ initGame();
 // evento tirar dado
 btnRoll.addEventListener('click', () => {
   // generar número aleatorio entre 1 y 6 y lo asignamos a la imagen del dado
-  const dice = Math.trunc(Math.random() * 6) + 1;
+  const dice = Math.trunc(Math.random() * 26) + 1;
   imgDice.src = `/images/dice-${dice}.png`;
-
   // mostrar el dado  // imgDice.style.display = 'block';
   imgDice.classList.remove('hidden');
 
@@ -72,8 +76,22 @@ btnHold.addEventListener('click', () => {
   // opción larga:
   if (activePlayer === 0) score0El.textContent = score[activePlayer];
   else score1El.textContent = score[activePlayer];
-  // cambiar el jugador activo y resetea el current score
-  switchPlayer();
+
+  if (score[activePlayer] >= 10) {
+    // ganar el juego
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+    // ocultar el dado
+    // imgDice.style.display = 'none';
+    imgDice.classList.add('hidden');
+  } else {
+    // cambiar el jugador activo y resetear el score actual
+    switchPlayer();
+  }
 });
 
 // evento nuevo juego
